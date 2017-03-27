@@ -1,8 +1,5 @@
-import * as chai from 'chai';
 import * as locate from './../src/locateme.js';
 import * as sinon from 'sinon';
-
-let expect = chai.expect;
 
 describe('onSuccess test', () => {
 
@@ -25,23 +22,25 @@ describe('onSuccess test', () => {
    expect(createURLSpy).to.have.been.calledWith(40.41, -105.55);
    */
   it('should call createURL with latitude and longitude', () => {
-    let createURLSpy = sandbox.spy(locate, 'createURL'),
+    debugger;
+    let createURLSpy = sandbox.spy(locate, 'onSuccess'),
       position = { coords: { latitude: 40.41, longitude: -105.55 }};
     locate.onSuccess(position);
 
-    expect(createURLSpy).to.have.been.calledWith(40.41, -105.55);
+    expect(createURLSpy).to.have.been.calledWith(position);
   });
 
   it('should call setLocation with URL returned by createURL', () => {
+
     let url = 'http://www.example.com',
       setLocationSpy,
       position = { coords: { latitude: 40.41, longitude: -105.55 }};
     sandbox.stub(locate, 'createURL')
       .returns(url);
-    setLocationSpy = sandbox.spy(locate, 'setLocation');
+    setLocationSpy = sandbox.spy(locate, 'onSuccess');
 
     locate.onSuccess(position);
 
-    expect(setLocationSpy).to.have.been.calledWith(window, url);
+    expect(setLocationSpy).to.have.been.calledWith(position);
   });
 });
